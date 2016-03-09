@@ -1,9 +1,10 @@
-fee98a9f2d43d17959f936c753620f15 *DESCRIPTION
+e645228835820439a94f3143acde0e73 *DESCRIPTION
 0a6b55828a2dd731c8f12b30e51c0632 *LICENSE
 de898fabde38399a933cf033229928dd *NAMESPACE
 e07b57bca4c35afae4309a16179a7040 *R/revealjs.R
 cb147e3abb89c2647baaeebd4afafb41 *R/revealjs_presentation.R
 c1996c16134642d89be8d7c0a7ce8e5c *inst/COPYING
+f23031a1942dc3e0f31a5d3f80fd0b83 *inst/NEWS
 7c24a7b8d8c04b7456762a41c7652935 *inst/NOTICE
 a73fd345fa0d7f72e7b91c756a548c45 *inst/reveal.js-3.2.0/CONTRIBUTING.md
 8583494bb95019654643d6287dd09413 *inst/reveal.js-3.2.0/Gruntfile.js
@@ -13,7 +14,7 @@ f4321fc7a04d1bb24c7e56560da049b9 *inst/reveal.js-3.2.0/LICENSE
 200d5cce4ac042cb2bccba837b578fc1 *inst/reveal.js-3.2.0/css/print/pdf.css
 047b60a2caa9a6c670fc6be307c4ea9e *inst/reveal.js-3.2.0/css/reveal.css
 73e0fbba308e09f4293edfc46383a52e *inst/reveal.js-3.2.0/css/reveal.scss
-8dd46660808d0b90a96023f127c8112e *inst/reveal.js-3.2.0/css/theme/beige.css
+bbc1a4843cf7d1180168f6cb7ebc8967 *inst/reveal.js-3.2.0/css/theme/beige.css
 49037753fb220772e448a3ed1fc1c88d *inst/reveal.js-3.2.0/css/theme/black.css
 eca443410b510f256be813e04dcd4a43 *inst/reveal.js-3.2.0/css/theme/blood.css
 7f690e503a254e0b8349aec0177e07aa *inst/reveal.js-3.2.0/css/theme/fonts/Lato.ttf
@@ -33,13 +34,13 @@ c2dd35c78048274c0857a37e8e80fcb9 *inst/reveal.js-3.2.0/css/theme/fonts/UbuntuBol
 ab24ba9968ef6ace7769cc3191a3b8a2 *inst/reveal.js-3.2.0/css/theme/fonts/UbuntuBoldItalic.ttf
 f6bf248a8a789634d64124a397a22a1b *inst/reveal.js-3.2.0/css/theme/fonts/UbuntuLight.ttf
 0a4ba9fed9e5d1e00f9b4b806de88605 *inst/reveal.js-3.2.0/css/theme/fonts/UbuntuLightItalic.ttf
-8e43079d822a091d3bab0cf4626fc6a8 *inst/reveal.js-3.2.0/css/theme/league.css
+3851022bde15f8a655f71446aa00e5fe *inst/reveal.js-3.2.0/css/theme/league.css
 038352b54d4da9ebfc57705b7a8e2cec *inst/reveal.js-3.2.0/css/theme/moon.css
 5946f0f1b7406f1779c3cd0fe9f7cc40 *inst/reveal.js-3.2.0/css/theme/night.css
 dd646f5b880751a49d41966a106b7171 *inst/reveal.js-3.2.0/css/theme/serif.css
 8530ff443d896337ebaef1c9f12b19ba *inst/reveal.js-3.2.0/css/theme/simple.css
 c38aa839a257c5164481ca90d1e399fa *inst/reveal.js-3.2.0/css/theme/sky.css
-38de54fe4fb13e9b5dbdfb04f4859e9b *inst/reveal.js-3.2.0/css/theme/solarized.css
+cd814a6413118ccb06b6b82417e1667b *inst/reveal.js-3.2.0/css/theme/solarized.css
 a32f9ac5df15dacfd07ece09824cf182 *inst/reveal.js-3.2.0/css/theme/source/beige.scss
 d35a54888726ea990ba937b0ebf5fd80 *inst/reveal.js-3.2.0/css/theme/source/black.scss
 7664cab2650c366672f496c600770904 *inst/reveal.js-3.2.0/css/theme/source/blood.scss
@@ -113,6 +114,6 @@ f311c8540bb1687f2c293d76be9d2538 *inst/reveal.js-3.2.0/test/test.js
 524688e12f69f3f201f2fd68f1cc42fd *inst/rmarkdown/templates/revealjs_presentation/resources/default.html
 ca7055ed881f4a91082ab996a043e192 *inst/rmarkdown/templates/revealjs_presentation/skeleton/skeleton.Rmd
 43d71e58724aedb95f11b00ae1928383 *inst/rmarkdown/templates/revealjs_presentation/template.yaml
-ebf7807b39834b5e4ac3f70ebbd3e0db *man/revealjs_presentation.Rd
+4a5cf7392b16bf1484443ba5eac68f6a *man/revealjs_presentation.Rd
 09c9dbcba35cc62f3c776599dec2370e *tests/testthat.R
-f04c398ca2243426d820d299f7ccc24a *tests/testthat/test_themes.R
+d13cce1432d6c8c38f1fff36d474255a *tests/testthat/test_themes.R
