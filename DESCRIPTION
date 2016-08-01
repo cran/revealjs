@@ -1,8 +1,8 @@
 Package: revealjs
 Type: Package
 Title: R Markdown Format for 'reveal.js' Presentations
-Version: 0.6
-Date: 2016-03-08
+Version: 0.7
+Date: 2016-08-01
 Authors@R: c(
     person("Hakim", "El Hattab", role = c("aut", "cph"),
        comment = "reveal.js-3.2.0, https://github.com/hakimel/reveal.js"),
@@ -19,11 +19,11 @@ Imports: rmarkdown(>= 0.3.3)
 Suggests: testthat
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-03-08 20:07:00 UTC; jjallaire
+Packaged: 2016-08-01 15:12:26 UTC; jjallaire
 Author: Hakim El Hattab [aut, cph] (reveal.js-3.2.0,
     https://github.com/hakimel/reveal.js),
   JJ Allaire [aut, cre],
   RStudio [cph]
 Maintainer: JJ Allaire <jj@rstudio.com>
 Repository: CRAN
-Date/Publication: 2016-03-09 01:13:57
+Date/Publication: 2016-08-01 19:13:14

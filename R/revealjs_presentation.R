@@ -21,6 +21,9 @@
 #' @param reveal_options Additional options to specify for reveal.js (see 
 #'   \href{https://github.com/hakimel/reveal.js#configuration}{https://github.com/hakimel/reveal.js#configuration}
 #'   for details).
+#' @param reveal_plugins Reveal plugins to include. Available plugins include "notes", 
+#'   "search", and "zoom". Note that \code{self_contained} must be set to 
+#'   \code{FALSE} in order to use Reveal plugins.
 #' @param template Pandoc template to use for rendering. Pass "default" to use
 #'   the rmarkdown package default template; pass \code{NULL} to use pandoc's
 #'   built-in template; pass a path to use a custom template that you've
@@ -69,6 +72,7 @@ revealjs_presentation <- function(incremental = FALSE,
                                   transition = "default",
                                   background_transition = "default",
                                   reveal_options = NULL,
+                                  reveal_plugins = NULL,
                                   highlight = "default",
                                   mathjax = "default",
                                   template = "default",
@@ -108,7 +112,7 @@ revealjs_presentation <- function(incremental = FALSE,
   args <- c(args, pandoc_variable_arg("center", jsbool(center)))
   
   # slide level
-  args <- c(args, "--slide-level", "2")
+  args <- c(args, "--slide-level", as.character(slide_level))
   
   # theme
   theme <- match.arg(theme, revealjs_themes())
@@ -129,14 +133,39 @@ revealjs_presentation <- function(incremental = FALSE,
   background_transition <- match.arg(background_transition, revealjs_transitions())
   args <- c(args, "--variable", paste("backgroundTransition=", background_transition, sep=""))
   
+  # use history
+  args <- c(args, pandoc_variable_arg("history", "true"))
+  
   # additional reveal options
   if (is.list(reveal_options)) {
     for (option in names(reveal_options)) {
       value <- reveal_options[[option]]
       if (is.logical(value))
         value <- jsbool(value)
+      else if (is.character(value))
+        value <- paste0("'", value, "'")
       args <- c(args, pandoc_variable_arg(option, value))
     }
+  }
+  
+  # reveal plugins
+  if (is.character(reveal_plugins)) {
+    
+    # validate that we need to use self_contained for plugins
+    if (self_contained)
+      stop("Using reveal_plugins requires self_contained: false")
+    
+    # validate specified plugins are supported
+    supported_plugins <- c("notes", "search", "zoom")
+    invalid_plugins <- setdiff(reveal_plugins, supported_plugins)
+    if (length(invalid_plugins) > 0)
+      stop("The following plugin(s) are not supported: ",
+           paste(invalid_plugins, collapse = ", "), call. = FALSE)
+    
+    # add plugins
+    sapply(reveal_plugins, function(plugin) {
+      args <<- c(args, pandoc_variable_arg(paste0("plugin-", plugin), "1"))
+    })    
   }
   
   # content includes
@@ -165,12 +194,13 @@ revealjs_presentation <- function(incremental = FALSE,
     args <- c()
     
     # reveal.js
-    revealjs_path <- system.file("reveal.js-3.2.0", package = "revealjs")
+    revealjs_path <- system.file("reveal.js-3.3.0", package = "revealjs")
     if (!self_contained || identical(.Platform$OS.type, "windows"))
       revealjs_path <- relative_to(
         output_dir, render_supporting_files(revealjs_path, lib_dir))
-    args <- c(args, "--variable", paste("revealjs-url=",
-                                        pandoc_path_arg(revealjs_path), sep=""))
+    else 
+      revealjs_path <- pandoc_path_arg(revealjs_path)
+    args <- c(args, "--variable", paste0("revealjs-url=", revealjs_path))
     
     # highlight
     args <- c(args, pandoc_highlight_args(highlight, default = "pygments"))
