@@ -1,13 +1,15 @@
 Package: revealjs
 Type: Package
 Title: R Markdown Format for 'reveal.js' Presentations
-Version: 0.8
-Date: 2016-12-14
+Version: 0.9
+Date: 2017-03-13
 Authors@R: c(
     person("Hakim", "El Hattab", role = c("aut", "cph"),
        comment = "reveal.js-3.2.0, https://github.com/hakimel/reveal.js"),
     person("Asvin", "Goel", role = c("ctb", "cph"), email = "goel@telematique.eu",
        comment = "chalkboard plugin"),
+    person("Greg", "Denehy", role = c("ctb", "cph"),
+       comment = "menu plugin"),
     person("JJ", "Allaire", role = c("aut", "cre"), email = "jj@rstudio.com"),
     person(family = "RStudio", role = "cph")
   )
@@ -19,14 +21,15 @@ BugReports: https://github.com/rstudio/revealjs/issues
 Depends: R (>= 3.0)
 Imports: rmarkdown (>= 1.0)
 Suggests: testthat
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2016-12-14 15:00:40 UTC; jjallaire
+Packaged: 2017-03-13 15:00:56 UTC; jjallaire
 Author: Hakim El Hattab [aut, cph] (reveal.js-3.2.0,
     https://github.com/hakimel/reveal.js),
   Asvin Goel [ctb, cph] (chalkboard plugin),
+  Greg Denehy [ctb, cph] (menu plugin),
   JJ Allaire [aut, cre],
   RStudio [cph]
 Maintainer: JJ Allaire <jj@rstudio.com>
 Repository: CRAN
-Date/Publication: 2016-12-14 17:23:37
+Date/Publication: 2017-03-13 17:11:07

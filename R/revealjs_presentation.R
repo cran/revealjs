@@ -7,29 +7,32 @@
 #' @inheritParams rmarkdown::html_document
 #'   
 #' @param center \code{TRUE} to vertically center content on slides
-#' @param slide_level Level of heading to denote individual slides. If
-#'   \code{slide_level} is 2 (the default), a two-dimensional layout will be
-#'   produced, with level 1 headers building horizontally and level 2 headers
-#'   building vertically. It is not recommended that you use deeper nesting of
+#' @param slide_level Level of heading to denote individual slides. If 
+#'   \code{slide_level} is 2 (the default), a two-dimensional layout will be 
+#'   produced, with level 1 headers building horizontally and level 2 headers 
+#'   building vertically. It is not recommended that you use deeper nesting of 
 #'   section levels with reveal.js.
-#' @param theme Visual theme ("simple", "sky", "beige", "serif", "solarized",
+#' @param theme Visual theme ("simple", "sky", "beige", "serif", "solarized", 
 #'   "blood", "moon", "night", "black", "league" or "white").
 #' @param transition Slide transition ("default", "none", "fade", "slide", 
 #'   "convex", "concave" or "zoom")
-#' @param background_transition Slide background-transition ("default", "none",
+#' @param background_transition Slide background-transition ("default", "none", 
 #'   "fade", "slide", "convex", "concave" or "zoom")
 #' @param reveal_options Additional options to specify for reveal.js (see 
 #'   \href{https://github.com/hakimel/reveal.js#configuration}{https://github.com/hakimel/reveal.js#configuration}
-#'   for details).
-#' @param reveal_plugins Reveal plugins to include. Available plugins include "notes", 
-#'   "search", and "zoom". Note that \code{self_contained} must be set to 
-#'   \code{FALSE} in order to use Reveal plugins.
-#' @param template Pandoc template to use for rendering. Pass "default" to use
-#'   the rmarkdown package default template; pass \code{NULL} to use pandoc's
-#'   built-in template; pass a path to use a custom template that you've
-#'   created. Note that if you don't use the "default" template then some
-#'   features of \code{revealjs_presentation} won't be available (see the
+#'    for details).
+#' @param reveal_plugins Reveal plugins to include. Available plugins include
+#'   "notes", "search", "zoom", "chalkboard", and "menu". Note that
+#'   \code{self_contained} must be set to \code{FALSE} in order to use Reveal
+#'   plugins.
+#' @param template Pandoc template to use for rendering. Pass "default" to use 
+#'   the rmarkdown package default template; pass \code{NULL} to use pandoc's 
+#'   built-in template; pass a path to use a custom template that you've 
+#'   created. Note that if you don't use the "default" template then some 
+#'   features of \code{revealjs_presentation} won't be available (see the 
 #'   Templates section below for more details).
+#' @param extra_dependencies Additional function arguments to pass to the base R
+#'   Markdown HTML output formatter [rmarkdown::html_document_base()].
 #' @param ... Ignored
 #'   
 #' @return R Markdown output format to pass to \code{\link{render}}
@@ -38,12 +41,12 @@
 #' 
 #' In reveal.js presentations you can use level 1 or level 2 headers for slides.
 #' If you use a mix of level 1 and level 2 headers then a two-dimensional layout
-#' will be produced, with level 1 headers building horizontally and level 2
+#' will be produced, with level 1 headers building horizontally and level 2 
 #' headers building vertically.
 #' 
-#' For additional documentation on using revealjs presentations see
+#' For additional documentation on using revealjs presentations see 
 #' \href{https://github.com/rstudio/revealjs}{https://github.com/rstudio/revealjs}.
-#'   
+#' 
 #' @examples
 #' \dontrun{
 #' 
@@ -149,12 +152,12 @@ revealjs_presentation <- function(incremental = FALSE,
     }
     
     for (option in names(reveal_options)) {
-      # special handling for nested chalkboard options
-      if (identical(option, "chalkboard")) {
-        chalkboard_options <- reveal_options[[option]]
-        for (chalkboard_option in names(chalkboard_options)) {
-          add_reveal_option(paste0("chalkboard-", chalkboard_option),
-                            chalkboard_options[[chalkboard_option]])
+      # special handling for nested options
+      if (option %in% c("chalkboard", "menu")) {
+        nested_options <- reveal_options[[option]]
+        for (nested_option in names(nested_options)) {
+          add_reveal_option(paste0(option, "-", nested_option),
+                            nested_options[[nested_option]])
         }
       }
       # standard top-level options
@@ -172,7 +175,7 @@ revealjs_presentation <- function(incremental = FALSE,
       stop("Using reveal_plugins requires self_contained: false")
     
     # validate specified plugins are supported
-    supported_plugins <- c("notes", "search", "zoom", "chalkboard")
+    supported_plugins <- c("notes", "search", "zoom", "chalkboard", "menu")
     invalid_plugins <- setdiff(reveal_plugins, supported_plugins)
     if (length(invalid_plugins) > 0)
       stop("The following plugin(s) are not supported: ",
@@ -181,7 +184,7 @@ revealjs_presentation <- function(incremental = FALSE,
     # add plugins
     sapply(reveal_plugins, function(plugin) {
       args <<- c(args, pandoc_variable_arg(paste0("plugin-", plugin), "1"))
-      if (identical(plugin, "chalkboard")) {
+      if (plugin %in% c("chalkboard", "menu")) {
         extra_dependencies <<- append(extra_dependencies,
                                      list(rmarkdown::html_dependency_font_awesome()))
           
@@ -215,7 +218,7 @@ revealjs_presentation <- function(incremental = FALSE,
     args <- c()
     
     # reveal.js
-    revealjs_path <- system.file("reveal.js-3.3.0", package = "revealjs")
+    revealjs_path <- system.file("reveal.js-3.3.0.1", package = "revealjs")
     if (!self_contained || identical(.Platform$OS.type, "windows"))
       revealjs_path <- relative_to(
         output_dir, render_supporting_files(revealjs_path, lib_dir))
