@@ -4,20 +4,41 @@
 \alias{revealjs_presentation}
 \title{Convert to a reveal.js presentation}
 \usage{
-revealjs_presentation(incremental = FALSE, center = FALSE,
-  slide_level = 2, fig_width = 8, fig_height = 6, fig_retina = if
-  (!fig_caption) 2, fig_caption = FALSE, smart = TRUE,
-  self_contained = TRUE, theme = "simple", transition = "default",
-  background_transition = "default", reveal_options = NULL,
-  reveal_plugins = NULL, highlight = "default", mathjax = "default",
-  template = "default", css = NULL, includes = NULL, keep_md = FALSE,
-  lib_dir = NULL, pandoc_args = NULL, extra_dependencies = NULL, ...)
+revealjs_presentation(
+  incremental = FALSE,
+  center = FALSE,
+  slide_level = 2,
+  toc = FALSE,
+  toc_depth = 3,
+  fig_width = 8,
+  fig_height = 6,
+  fig_retina = if (!fig_caption) 2,
+  fig_caption = FALSE,
+  self_contained = TRUE,
+  theme = "simple",
+  transition = "convex",
+  background_transition = "fade",
+  reveal_options = NULL,
+  reveal_plugins = NULL,
+  highlight = "default",
+  mathjax = "default",
+  template = "default",
+  css = NULL,
+  includes = NULL,
+  keep_md = FALSE,
+  lib_dir = NULL,
+  pandoc_args = NULL,
+  extra_dependencies = NULL,
+  md_extensions = NULL,
+  ...
+)
 }
 \arguments{
 \item{incremental}{\code{TRUE} to render slide bullets incrementally. Note
 that if you want to reverse the default incremental behavior for an
 individual bullet you can precede it with \code{>}. For example:
-\emph{\code{> - Bullet Text}}}
+\emph{\verb{> - Bullet Text}}. See more in
+\href{https://pandoc.org/MANUAL.html#incremental-lists}{Pandoc's Manual}}
 
 \item{center}{\code{TRUE} to vertically center content on slides}
 
@@ -27,9 +48,14 @@ produced, with level 1 headers building horizontally and level 2 headers
 building vertically. It is not recommended that you use deeper nesting of
 section levels with reveal.js.}
 
+\item{toc}{\code{TRUE} to include a table of contents in the output (only
+level 1 headers will be included in the table of contents).}
+
+\item{toc_depth}{Depth of headers to include in table of contents}
+
 \item{fig_width}{Default width (in inches) for figures}
 
-\item{fig_height}{Default width (in inches) for figures}
+\item{fig_height}{Default height (in inches) for figures}
 
 \item{fig_retina}{Scaling to perform for retina displays (defaults to 2, which
 currently works for all widely used retina displays). Set to \code{NULL} to
@@ -39,42 +65,46 @@ outputting HTML directly into the markdown document).}
 
 \item{fig_caption}{\code{TRUE} to render figures with captions}
 
-\item{smart}{Produce typographically correct output, converting straight
-quotes to curly quotes, --- to em-dashes, -- to en-dashes, and ... to
-ellipses.}
+\item{self_contained}{Whether to generate a full LaTeX document (\code{TRUE})
+or just the body of a LaTeX document (\code{FALSE}). Note the LaTeX
+document is an intermediate file unless \code{keep_tex = TRUE}.}
 
-\item{self_contained}{Produce a standalone HTML file with no external
-dependencies, using data: URIs to incorporate the contents of linked
-scripts, stylesheets, images, and videos. Note that even for self contained
-documents MathJax is still loaded externally (this is necessary because of
-it's size).}
+\item{theme}{Visual theme ("simple", "dark", "black", "sky", "beige", "serif", "solarized", "blood", "moon", "night", "league", or "white")}
 
-\item{theme}{Visual theme ("simple", "sky", "beige", "serif", "solarized",
-"blood", "moon", "night", "black", "league" or "white").}
+\item{transition}{Slide transition (
+"convex", "fade", "slide", "concave", "zoom", or "none"
+)}
 
-\item{transition}{Slide transition ("default", "none", "fade", "slide",
-"convex", "concave" or "zoom")}
-
-\item{background_transition}{Slide background-transition ("default", "none",
-"fade", "slide", "convex", "concave" or "zoom")}
+\item{background_transition}{Slide background-transition (
+"convex", "fade", "slide", "concave", "zoom", or "none"
+)}
 
 \item{reveal_options}{Additional options to specify for reveal.js (see
-\href{https://github.com/hakimel/reveal.js#configuration}{https://github.com/hakimel/reveal.js#configuration}
-for details).}
+\url{https://revealjs.com/config/} for details). Options for plugins can also
+be passed, using plugin name as first level key (e.g \code{list(slideNumber = FALSE, menu = list(number = TRUE))}).}
 
 \item{reveal_plugins}{Reveal plugins to include. Available plugins include
 "notes", "search", "zoom", "chalkboard", and "menu". Note that
 \code{self_contained} must be set to \code{FALSE} in order to use Reveal
 plugins.}
 
-\item{highlight}{Syntax highlighting style. Supported styles include
-"default", "tango", "pygments", "kate", "monochrome", "espresso",
-"zenburn", and "haddock". Pass \code{NULL} to prevent syntax highlighting.}
+\item{highlight}{Syntax highlighting style passed to Pandoc.
 
-\item{mathjax}{Include mathjax. The "default" option uses an https URL from
-the official MathJax CDN. The "local" option uses a local version of MathJax
-(which is copied into the output directory). You can pass an alternate URL
-or pass \code{NULL} to exclude MathJax entirely.}
+ Supported built-in styles include "default", "tango", "pygments", "kate",
+ "monochrome", "espresso", "zenburn", "haddock", and "breezedark".
+
+  Two custom styles are also included, "arrow", an accessible color scheme,
+  and "rstudio", which mimics the default IDE theme. Alternatively, supply a
+  path to a \samp{.theme} file to use
+  \href{https://pandoc.org/MANUAL.html#syntax-highlighting}{a custom Pandoc
+  style}. Note that custom theme requires Pandoc 2.0+.
+
+  Pass \code{NULL} to prevent syntax highlighting.}
+
+\item{mathjax}{Include mathjax. The "default" option uses an https URL from a
+MathJax CDN. The "local" option uses a local version of MathJax (which is
+copied into the output directory). You can pass an alternate URL or pass
+\code{NULL} to exclude MathJax entirely.}
 
 \item{template}{Pandoc template to use for rendering. Pass "default" to use
 the rmarkdown package default template; pass \code{NULL} to use pandoc's
@@ -83,10 +113,13 @@ created. Note that if you don't use the "default" template then some
 features of \code{revealjs_presentation} won't be available (see the
 Templates section below for more details).}
 
-\item{css}{One or more css files to include}
+\item{css}{CSS and/or Sass files to include. Files with an extension of .sass
+or .scss are compiled to CSS via \code{sass::sass()}. Also, if \code{theme} is a
+\code{\link[bslib:bs_theme]{bslib::bs_theme()}} object, Sass code may reference the relevant Bootstrap
+Sass variables, functions, mixins, etc.}
 
 \item{includes}{Named list of additional content to include within the
-document (typically created using the \code{\link{includes}} function).}
+document (typically created using the \code{\link[rmarkdown]{includes}} function).}
 
 \item{keep_md}{Keep the markdown file generated by knitting.}
 
@@ -99,10 +132,14 @@ bootstrap, etc.) into. By default this will be the name of the document with
 \item{extra_dependencies}{Additional function arguments to pass to the base R
 Markdown HTML output formatter \code{\link[rmarkdown:html_document_base]{rmarkdown::html_document_base()}}.}
 
+\item{md_extensions}{Markdown extensions to be added or removed from the
+default definition of R Markdown. See the \code{\link[rmarkdown]{rmarkdown_format}} for
+additional details.}
+
 \item{...}{Ignored}
 }
 \value{
-R Markdown output format to pass to \code{\link{render}}
+R Markdown output format to pass to \code{\link[rmarkdown:render]{rmarkdown::render()}}
 }
 \description{
 Format for converting from R Markdown to a reveal.js presentation.
@@ -114,8 +151,84 @@ will be produced, with level 1 headers building horizontally and level 2
 headers building vertically.
 
 For additional documentation on using revealjs presentations see
-\href{https://github.com/rstudio/revealjs}{https://github.com/rstudio/revealjs}.
+\url{https://github.com/rstudio/revealjs}
 }
+\section{About plugins}{
+\subsection{Built-in plugins with reveal.js}{
+\subsection{Zoom}{
+
+When activated, ALT + Click can be used to zoom on a slide.
+}
+
+\subsection{Notes}{
+
+Show a \href{https://revealjs.com/speaker-view/}{speaker view} in a separated
+window. This speaker view contains a timer, current slide, next slide, and
+speaker notes. It also duplicate the window to have presentation mode
+synchronized with main presentation.
+
+Use
+
+\if{html}{\out{<div class="sourceCode markdown">}}\preformatted{::: notes
+Content of speaker notes
+:::
+}\if{html}{\out{</div>}}
+
+to create notes only viewable in presentation mode.
+}
+
+\subsection{Search}{
+
+When opt-in, it is possible to show a search box when pressing \code{CTRL + SHIFT + F}. It will seach in the whole presentation, and highlight matched words. The
+matches will also be highlighted in overview mode (pressing ESC to see all
+slides in one scrollable view)
+}
+
+}
+
+\subsection{Menu}{
+
+A slideout menu plugin for Reveal.js to quickly jump to any slide by title.
+
+Version  is
+currently used and documentation for configurations can be found at
+\href{https://github.com/denehyg/reveal.js-menu/blob/2.1.0/README.md}{denehyg/reveal.js-menu}
+\subsection{Known limitations}{
+
+Some configurations cannot be modified in the current template:
+\itemize{
+\item \code{loadIcons: false}  the fontawesome icons are loaded by \pkg{rmarkdown}
+when this plugin is used
+\item \code{custom: false}
+\item \code{themes: false}
+\item \code{transitions: false}
+}
+}
+
+}
+
+\subsection{Chalkboard}{
+
+A plugin adding a chalkboard and slide annotation
+
+Version  is
+currently used and documentation for configurations can be found at
+\href{https://github.com/rajgoel/reveal.js-plugins/tree/4.1.5/chalkboard}{rajgoel/reveal.js-plugins}
+
+By default, chalkboard and annotations modes will be accessible using keyboard
+shortcuts, respectively, pressing B, or pressing C.
+In addition, buttons on the bottom left can be added by using the following
+
+\if{html}{\out{<div class="sourceCode yaml">}}\preformatted{reveal_plugins: 
+  - chalkboard
+reveal_options:
+  chalkboard:
+    toggleNotesButton: true
+    toggleChalkboardButton: true
+}\if{html}{\out{</div>}}
+}
+}
+
 \examples{
 \dontrun{
 
@@ -128,6 +241,5 @@ render("pres.Rmd", revealjs_presentation())
 # specify an option for incremental rendering
 render("pres.Rmd", revealjs_presentation(incremental = TRUE))
 }
-
 
 }
